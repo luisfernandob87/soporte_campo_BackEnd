@@ -17,7 +17,7 @@ app.use(express.json());
 
 // Configure CORS
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://soporte-campo-frontend.onrender.com/',
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS']
 }));
 
