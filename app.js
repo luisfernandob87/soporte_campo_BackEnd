@@ -17,8 +17,10 @@ app.use(express.json());
 
 // Configure CORS
 app.use(cors({
-  origin: 'https://soporte-campo-frontend.onrender.com/',
-  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS']
+  origin: 'https://soporte-campo-frontend.onrender.com',
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Define endpoints
