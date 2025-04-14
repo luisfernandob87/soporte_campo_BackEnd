@@ -27,11 +27,8 @@ const getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 const createUser = catchAsync(async (req, res, next) => {
-	const { name, email, password, role } = req.body;
+	const { nombre, usuario, password} = req.body;
 
-	if (role !== 'admin' && role !== 'normal') {
-		return next(new AppError('Invalid role', 400));
-	}
 
 	// Encrypt the password
 	const salt = await bcrypt.genSalt(12);
@@ -41,6 +38,9 @@ const createUser = catchAsync(async (req, res, next) => {
 		nombre,
 		usuario,
 		password: hashedPassword,
+		rol: 'Usuario' ,
+		latitud: 0,
+		longitud: 0,
 	});
 
 	// Remove password from response
@@ -54,10 +54,25 @@ const createUser = catchAsync(async (req, res, next) => {
 });
 
 const updateUser = catchAsync(async (req, res, next) => {
-	const { name } = req.body;
+	const { nombre, password, latitud, longitud } = req.body;
 	const { user } = req;
 
-	await user.update({ nombre });
+	const updateData = { nombre };
+
+	if (latitud !== undefined) updateData.latitud = latitud;
+	if (longitud !== undefined) updateData.longitud = longitud;
+
+	if (password) {
+		// Encrypt the new password
+		const salt = await bcrypt.genSalt(12);
+		const hashedPassword = await bcrypt.hash(password, salt);
+		updateData.password = hashedPassword;
+	}
+
+	await user.update(updateData);
+
+	// Remove password from response
+	user.password = undefined;
 
 	res.status(200).json({
 		status: 'success',
@@ -68,24 +83,24 @@ const updateUser = catchAsync(async (req, res, next) => {
 const deleteUser = catchAsync(async (req, res, next) => {
 	const { user } = req;
 
-	await user.update({ status: 'deleted' });
+	await user.update({ status: 'Eliminado' });
 
 	res.status(204).json({ status: 'success' });
 });
 
 const login = catchAsync(async (req, res, next) => {
 	// Get email and password from req.body
-	const { email, password } = req.body;
+	const { usuario, password } = req.body;
 
-	// Validate if the user exist with given email
+	// Validate if the user exist with given username
 	const user = await User.findOne({
-		where: { email, status: 'active' },
+		where: { usuario, status: 'Activo' },
 	});
 
 	// Compare passwords (entered password vs db password)
 	// If user doesn't exists or passwords doesn't match, send error
 	if (!user || !(await bcrypt.compare(password, user.password))) {
-		return next(new AppError('Wrong credentials', 400));
+		return next(new AppError('Credenciales incorrectas', 400));
 	}
 
 	// Remove password from response

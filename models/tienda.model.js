@@ -15,7 +15,6 @@ const Tienda = db.define('tienda', {
 	nombre: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
 	},
 	latitud: {
 		type: DataTypes.STRING,
@@ -23,7 +22,6 @@ const Tienda = db.define('tienda', {
 	},
 	longitud: {
 		type: DataTypes.STRING,
-		defaultValue: 'Normal',
 		allowNull: false,
 	},
 	status: {

@@ -19,21 +19,27 @@ const checkValidations = (req, res, next) => {
 };
 
 const createUserValidators = [
-	body('name')
+	body('nombre')
 		.isString()
-		.withMessage('Name must be a string')
+		.withMessage('El nombre debe ser texto')
 		.notEmpty()
-		.withMessage('Name cannot be empty')
+		.withMessage('El nombre no puede estar vacío')
 		.isLength({ min: 3 })
-		.withMessage('Name must be at least 3 characters'),
-	body('email').isEmail().withMessage('Must provide a valid email'),
+		.withMessage('El nombre debe tener al menos 3 caracteres'),
+	body('usuario')
+		.isString()
+		.withMessage('El usuario debe ser texto')
+		.notEmpty()
+		.withMessage('El usuario no puede estar vacío')
+		.isLength({ min: 3 })
+		.withMessage('El usuario debe tener al menos 3 caracteres'),
 	body('password')
 		.isString()
-		.withMessage('Password must be a string')
+		.withMessage('La contraseña debe ser texto')
 		.notEmpty()
-		.withMessage('Password cannot be empty')
+		.withMessage('La contraseña no puede estar vacía')
 		.isLength({ min: 8 })
-		.withMessage('Password must be at least 8 characters'),
+		.withMessage('La contraseña debe tener al menos 8 caracteres'),
 	checkValidations,
 ];
 

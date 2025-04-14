@@ -14,7 +14,10 @@ const Casos = db.define('casos', {
 	resolucion: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
+	},
+	estadoCaso: {
+		type: DataTypes.STRING,
+		allowNull: false,
 	},
 	status: {
 		type: DataTypes.STRING,

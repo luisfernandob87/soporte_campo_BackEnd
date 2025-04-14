@@ -15,13 +15,13 @@ const startServer = async () => {
 		// Establish the relations between models
 		initModels();
 
-		await db.sync();
+		await db.sync({ force: false });
 
 		// Set server to listen
 		const PORT = 4000;
 
 		app.listen(PORT, () => {
-			console.log('Express app running!');
+			console.log('Express app running!'+PORT);
 		});
 	} catch (error) {
 		console.log(error);

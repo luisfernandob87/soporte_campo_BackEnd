@@ -27,12 +27,12 @@ usersRouter.post('/', createUserValidators, createUser);
 usersRouter.post('/login', login);
 
 // Protecting below endpoints
-usersRouter.use(protectSession);
+// usersRouter.use(protectSession);
 
 usersRouter.get('/', getAllUsers);
 
-usersRouter.patch('/:id_usuario', userExists, protectUsersAccount, updateUser);
+usersRouter.patch('/:id_usuario', userExists, updateUser);
 
-usersRouter.delete('/:id_usuario', userExists, protectUsersAccount, deleteUser);
+usersRouter.delete('/:id_usuario', userExists, deleteUser);
 
 module.exports = { usersRouter };
